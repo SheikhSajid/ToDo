@@ -3,23 +3,36 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+// import MailIcon from "@material-ui/icons/Mail";
 import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-// import { useTheme } from "@material-ui/core/styles";
 
 import useStyles, { useTheme } from "./TopBar/style";
 
 export default function LeftDrawer({ AppState, SetAppState }) {
   const classes = useStyles();
   const theme = useTheme();
-  // const [mobileOpen, setMobileOpen] = React.useState(false);
 
   function handleDrawerToggle() {
     SetAppState({ drawerOpenMobile: !AppState.drawerOpenMobile });
+  }
+
+  function makeCategoryEntry(categoryName) {
+    function handleClick() {
+      SetAppState({ selectedCategory: categoryName });
+    }
+
+    return (
+      <ListItem button key={categoryName} onClick={handleClick}>
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary={categoryName} />
+      </ListItem>
+    );
   }
 
   const drawer = (
@@ -29,21 +42,9 @@ export default function LeftDrawer({ AppState, SetAppState }) {
         Categories
       </Typography>
       <List>
-        {AppState.category.map(({ name }, index) => (
-          <ListItem button key={name}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={name} />
-          </ListItem>
-        ))}
+        {AppState.category.map(({ name }) => makeCategoryEntry(name))}
         <Divider />
-        <ListItem button key="all">
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="all" />
-        </ListItem>
+        {makeCategoryEntry("all")}
       </List>
     </div>
   );
