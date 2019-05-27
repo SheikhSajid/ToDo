@@ -36,7 +36,8 @@ export default class App extends Component {
     main: [],
     archived: [],
     trash: [],
-    drawerOpenMobile: false
+    drawerOpenMobile: false,
+    selectedCategory: "all"
   };
 
   componentDidMount() {
