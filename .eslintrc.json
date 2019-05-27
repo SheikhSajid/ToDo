@@ -15,16 +15,13 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
+  "parser": "babel-eslint",
   "plugins": ["react", "import"],
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "no-param-reassign": "off",
+    "react/prop-types": "off",
+    "no-alert": "off"
   },
   "settings": {
     "import/resolver": "webpack"

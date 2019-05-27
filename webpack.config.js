@@ -9,7 +9,7 @@ const htmlPlugin = new HtmlWebpackPlugin({
 module.exports = {
   context: __dirname,
   entry: path.resolve(__dirname, "src", "App.jsx"),
-  devtool: "cheap-eval-source-map",
+  devtool: "eval-source-map",
   plugins: [htmlPlugin],
   resolve: {
     alias: {
@@ -19,12 +19,12 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        enforce: "pre",
-        test: /\.jsx?$/,
-        loader: "eslint-loader",
-        exclude: /node_modules/
-      },
+      // {
+      //   enforce: "pre",
+      //   test: /\.jsx?$/,
+      //   loader: "eslint-loader",
+      //   exclude: /node_modules/
+      // },
       { test: /\.jsx?$/, loader: "babel-loader" }
     ]
   }
