@@ -7,6 +7,7 @@ import db from "db";
 import TopBar from "./Components/TopBar";
 import LeftDrawer from "./Components/LeftDrawer";
 import useStyles from "./Components/TopBar/style";
+import Main from "./Components/Main";
 
 // db.category.bulkAdd([{ name: "school" }, { name: "home" }]);
 
@@ -26,6 +27,7 @@ export function Container({ AppState, SetAppState, SyncAppStateWithDb }) {
         SetAppState={SetAppState}
         SyncAppStateWithDb={SyncAppStateWithDb}
       />
+      <Main />
     </div>
   );
 }
