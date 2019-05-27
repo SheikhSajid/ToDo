@@ -1,4 +1,4 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 const htmlPlugin = new HtmlWebpackPlugin({
@@ -8,13 +8,12 @@ const htmlPlugin = new HtmlWebpackPlugin({
 
 module.exports = {
   context: __dirname,
-  entry: path.resolve(__dirname, "src", "index.jsx"),
+  entry: path.resolve(__dirname, "src", "App.jsx"),
   devtool: "cheap-eval-source-map",
   plugins: [htmlPlugin],
   resolve: {
     alias: {
-      db: path.resolve(__dirname, "src/database/"),
-      auth$: path.resolve(__dirname, "src/database/auth.js")
+      db$: path.resolve(__dirname, "src", "db.js")
     },
     extensions: [".js", ".jsx", ".json"]
   },
