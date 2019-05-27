@@ -27,7 +27,11 @@ export function Container({ AppState, SetAppState, SyncAppStateWithDb }) {
         SetAppState={SetAppState}
         SyncAppStateWithDb={SyncAppStateWithDb}
       />
-      <Main />
+      <Main
+        AppState={AppState}
+        SetAppState={SetAppState}
+        SyncAppStateWithDb={SyncAppStateWithDb}
+      />
     </div>
   );
 }

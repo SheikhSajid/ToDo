@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PinnedSubheaderList() {
+function PinnedSubheaderList({ AppState }) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
 
@@ -48,15 +48,15 @@ function PinnedSubheaderList() {
 
   return (
     <List className={classes.root} subheader={<li />} dense>
-      {["Work", "School", "Coding", "Math"].map(category => (
-        <li key={`section-${category}`} className={classes.listSection}>
+      {AppState.category.map(({ name }) => (
+        <li key={`section-${name}`} className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader>
-              <Typography variant="h5">{category}</Typography>
+              <Typography variant="h5">{name}</Typography>
             </ListSubheader>
             {[0, 1, 2].map(item => (
               <ListItem
-                key={`item-${category}-${item}`}
+                key={`item-${name}-${item}`}
                 role={undefined}
                 dense
                 button

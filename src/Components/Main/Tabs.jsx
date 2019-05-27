@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SimpleTabs() {
+function SimpleTabs({ AppState, SetAppState, SyncAppStateWithDb }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -56,7 +56,11 @@ function SimpleTabs() {
       </Paper>
       {value === 0 && (
         <TabContainer>
-          <List />
+          <List
+            AppState={AppState}
+            SetAppState={SetAppState}
+            SyncAppStateWithDb={SyncAppStateWithDb}
+          />
         </TabContainer>
       )}
       {value === 1 && <TabContainer>Item Two</TabContainer>}
