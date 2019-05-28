@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
   paper: {
     boxShadow: "0 0 grey",
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
+  },
+  searchResultString: {
+    color: "1px solid rgba(0, 0, 0, 0.12)",
+    marginLeft: theme.spacing(1)
   }
 }));
 
@@ -69,6 +73,8 @@ function SimpleTabs({ AppState, SetAppState }) {
     );
   }
 
+  const timeRanges = ["ALL", "TODAY", "WEEK", "MONTH"];
+
   return (
     <div className={classes.root}>
       <Paper square className={classes.paper}>
@@ -84,6 +90,12 @@ function SimpleTabs({ AppState, SetAppState }) {
           <Tab label="This Month" />
         </Tabs>
       </Paper>
+      {AppState.searchTerm && (
+        <Typography className={classes.searchResultString} variant="h6">
+          Showing Results from the {`"${timeRanges[value]}"`} tab and the{" "}
+          {`"${AppState.selectedCategory}"`} category
+        </Typography>
+      )}
       {value === 0 && generateTabContainers("all")}
       {value === 1 && generateTabContainers("today")}
       {value === 2 && generateTabContainers("week")}

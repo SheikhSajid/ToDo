@@ -67,8 +67,19 @@ const getTasksFromTimerange = (tasks, range) => {
 
 function CheckboxList({ AppState, SetAppState, category, timerange }) {
   const classes = useStyles();
+  let dataSource = AppState.main;
 
-  const tasksFromTimeRange = getTasksFromTimerange(AppState.main, timerange);
+  if (AppState.searchTerm) {
+    dataSource = dataSource.filter(
+      task =>
+        task.title.toLowerCase().includes(AppState.searchTerm.toLowerCase()) ||
+        task.description
+          .toLowerCase()
+          .includes(AppState.searchTerm.toLowerCase())
+    );
+  }
+
+  const tasksFromTimeRange = getTasksFromTimerange(dataSource, timerange);
   const tasksFromCategory = tasksFromTimeRange.filter(
     task => task.category === category
   );

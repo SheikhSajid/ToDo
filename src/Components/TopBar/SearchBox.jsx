@@ -8,7 +8,7 @@ export default function SearchBox({ SetAppState }) {
   const classes = useStyles();
 
   function handleChange(event) {
-    SetAppState({ search: event.target.value });
+    SetAppState({ searchTerm: event.target.value });
   }
 
   return (

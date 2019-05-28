@@ -40,7 +40,7 @@ export default class App extends Component {
     main: [],
     archived: [],
     trash: [],
-    search: "",
+    searchTerm: "",
     drawerOpenMobile: false,
     selectedCategory: "all"
   };
