@@ -36,6 +36,11 @@ function SimpleTabs({ AppState, SetAppState, SyncAppStateWithDb }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
+  const completedTasks = AppState.main.filter(task => task.done === 1);
+  const incompleteTasks = AppState.main.filter(task => task.done === 0);
+  // console.log(`completed tasks: ${typeof completedTasks}`);
+  // console.log(`AppState.main len: ${AppState.main.length}`);
+
   function handleChange(event, newValue) {
     setValue(newValue);
   }
@@ -60,6 +65,8 @@ function SimpleTabs({ AppState, SetAppState, SyncAppStateWithDb }) {
             AppState={AppState}
             SetAppState={SetAppState}
             SyncAppStateWithDb={SyncAppStateWithDb}
+            completedTasks={completedTasks}
+            incompleteTasks={incompleteTasks}
           />
         </TabContainer>
       )}

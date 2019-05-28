@@ -39,7 +39,8 @@ export default function NewTaskForm({
       starred: 0,
       month,
       year,
-      day
+      day,
+      done: 1
     };
     delete newTask.selectedCategory;
     delete newTask.categories;
