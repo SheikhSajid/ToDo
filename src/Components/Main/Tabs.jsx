@@ -67,12 +67,37 @@ function SimpleTabs({ AppState, SetAppState }) {
               category={name}
               AppState={AppState}
               SetAppState={SetAppState}
+              timerange="today"
             />
           ))}
         </TabContainer>
       )}
-      {value === 1 && <TabContainer>Item Two</TabContainer>}
-      {value === 2 && <TabContainer>Item Three</TabContainer>}
+      {value === 1 && (
+        <TabContainer>
+          {categoriesToRender.map(({ name }) => (
+            <List
+              key={name}
+              category={name}
+              AppState={AppState}
+              SetAppState={SetAppState}
+              timerange="week"
+            />
+          ))}
+        </TabContainer>
+      )}
+      {value === 2 && (
+        <TabContainer>
+          {categoriesToRender.map(({ name }) => (
+            <List
+              key={name}
+              category={name}
+              AppState={AppState}
+              SetAppState={SetAppState}
+              timerange="month"
+            />
+          ))}
+        </TabContainer>
+      )}
     </div>
   );
 }

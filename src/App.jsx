@@ -9,8 +9,6 @@ import LeftDrawer from "./Components/LeftDrawer";
 import useStyles from "./Components/TopBar/style";
 import Main from "./Components/Main";
 
-// db.category.bulkAdd([{ name: "school" }, { name: "home" }]);
-
 export function Container({ AppState, SetAppState, SyncAppStateWithDb }) {
   const classes = useStyles();
 
@@ -47,7 +45,17 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    this.SyncAppStateWithDb("all");
+    this.SyncAppStateWithDb("all").then(() => {
+      const { category } = this.state;
+
+      // prepopulate the category db with some default categories
+      if (category.length === 0)
+        db.category.bulkAdd([
+          { name: "work" },
+          { name: "health" },
+          { name: "entertainment" }
+        ]);
+    });
   }
 
   SetAppState = newState => {
@@ -55,14 +63,16 @@ export default class App extends Component {
   };
 
   SyncAppStateWithDb = (...tableNames) => {
-    const syncTable = tableName => {
+    const syncTable = tableName =>
       db[tableName].toArray().then(arr => this.setState({ [tableName]: arr }));
-    };
 
     if (tableNames[0] === "all")
       tableNames = ["category", "main", "archived", "trash"];
 
-    tableNames.forEach(syncTable);
+    const promises = [];
+
+    tableNames.forEach(tableName => promises.push(syncTable(tableName)));
+    return Promise.all(promises);
   };
 
   render() {

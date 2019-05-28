@@ -15,14 +15,17 @@ export default function NewTaskForm({
   closeModal
 }) {
   const classes = useStyles();
+  const d = new Date();
 
   const [values, setValues] = React.useState({
     title: "",
     description: "",
     categories: AppState.category,
     selectedCategory: AppState.category[0].name,
-    date: "",
-    time: ""
+    date: `${d.getFullYear()}-${`${
+      d.getMonth() + 1 < 10 ? 0 : ""
+    }${d.getMonth() + 1}`}-${d.getDate()}`,
+    time: "6:30"
   });
 
   const handleChange = name => event => {
@@ -31,15 +34,15 @@ export default function NewTaskForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    const [year, month, day] = values.date.split("-");
+    const [year, month, date] = values.date.split("-");
 
     const newTask = {
       ...values,
       category: values.selectedCategory,
       starred: 0,
-      month,
-      year,
-      day,
+      month: parseInt(month, 10),
+      year: parseInt(year, 10),
+      date: parseInt(date, 10),
       done: 0
     };
     delete newTask.selectedCategory;
@@ -120,8 +123,8 @@ export default function NewTaskForm({
         id="time"
         label="Time"
         type="time"
-        // defaultValue="07:30"
-        defaultValue={values.time}
+        defaultValue="06:00"
+        // defaultValue={values.time}
         className={classes.textField}
         onChange={handleChange("time")}
         InputLabelProps={{

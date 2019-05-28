@@ -20,10 +20,45 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CheckboxList({ AppState, SetAppState, category }) {
+const getTasksFromTimerange = (tasks, range) => {
+  const d = new Date();
+  let filteredOutput = [];
+
+  if (range === "today") {
+    filteredOutput = tasks.filter(
+      task =>
+        task.date === d.getDate() &&
+        task.month === d.getMonth() + 1 &&
+        task.year === d.getFullYear()
+    );
+  } else if (range === "month") {
+    filteredOutput = tasks.filter(
+      task => task.month === d.getMonth() + 1 && task.year === d.getFullYear()
+    );
+  } else {
+    const dayOfTheWeek = d.getDay();
+    const daysLeft = 7 - dayOfTheWeek;
+
+    for (let i = 1; i <= daysLeft; i += 1) {
+      const t = tasks.filter(
+        task =>
+          task.date === d.getDate() &&
+          task.month === d.getMonth() + 1 &&
+          task.year === d.getFullYear()
+      );
+      filteredOutput = [...filteredOutput, ...t];
+      d.setDate(d.getDate() + 1); // increment the date object's date
+    }
+  }
+
+  return filteredOutput;
+};
+
+function CheckboxList({ AppState, SetAppState, category, timerange }) {
   const classes = useStyles();
 
-  const tasksFromCategory = AppState.main.filter(
+  const tasksFromTimeRange = getTasksFromTimerange(AppState.main, timerange);
+  const tasksFromCategory = tasksFromTimeRange.filter(
     task => task.category === category
   );
   const completedTasks = tasksFromCategory.filter(task => task.done === 1);
