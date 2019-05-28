@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -8,9 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-// import CommentIcon from "@material-ui/icons/Comment";
 import DeleteIcon from "@material-ui/icons/Delete";
-
+import Tooltip from "@material-ui/core/Tooltip";
 import db from "db";
 
 const useStyles = makeStyles(theme => ({
@@ -20,6 +19,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper
   }
 }));
+
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11
+  }
+}))(Tooltip);
 
 const getTasksFromTimerange = (tasks, range) => {
   const d = new Date();
@@ -83,7 +91,7 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
   };
 
   const renderTasks = task => {
-    const { id, done, title } = task;
+    const { id, done, title, description, time, month, date } = task;
 
     function handleDelete() {
       db.main.delete(id).then(() => {
@@ -95,28 +103,30 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
     }
 
     return (
-      <ListItem
+      <LightTooltip
         key={id}
-        role={undefined}
-        dense
-        button
-        onClick={handleToggle(task)}
+        title={
+          `${description}\nDate: ${date}/${month}\nTime: ${time}` ||
+          "No description available"
+        }
       >
-        <ListItemIcon>
-          <Checkbox
-            edge="start"
-            checked={done === 1}
-            tabIndex={-1}
-            disableRipple
-          />
-        </ListItemIcon>
-        <ListItemText primary={title} />
-        <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="Comments" onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+        <ListItem role={undefined} dense button onClick={handleToggle(task)}>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              checked={done === 1}
+              tabIndex={-1}
+              disableRipple
+            />
+          </ListItemIcon>
+          <ListItemText primary={title} />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="Comments" onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      </LightTooltip>
     );
   };
 
