@@ -2,7 +2,7 @@ import React from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import LabelIcon from "@material-ui/icons/LabelOutlined";
 // import MailIcon from "@material-ui/icons/Mail";
 import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
@@ -28,7 +28,7 @@ export default function LeftDrawer({ AppState, SetAppState }) {
     return (
       <ListItem button key={categoryName} onClick={handleClick}>
         <ListItemIcon>
-          <InboxIcon />
+          <LabelIcon />
         </ListItemIcon>
         <ListItemText primary={categoryName} />
       </ListItem>
