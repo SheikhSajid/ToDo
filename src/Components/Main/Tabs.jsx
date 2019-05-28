@@ -45,6 +45,30 @@ function SimpleTabs({ AppState, SetAppState }) {
       ? AppState.category
       : [{ name: AppState.selectedCategory }];
 
+  function withCategoryName(ListComponent, name) {
+    return function HOC(props) {
+      return (
+        <ListComponent
+          category={name}
+          AppState={AppState}
+          SetAppState={SetAppState}
+          {...props}
+        />
+      );
+    };
+  }
+
+  function generateTabContainers(timerange) {
+    return (
+      <TabContainer>
+        {categoriesToRender.map(({ name }) => {
+          const CategoryList = withCategoryName(List, name);
+          return <CategoryList key={name} timerange={timerange} />;
+        })}
+      </TabContainer>
+    );
+  }
+
   return (
     <div className={classes.root}>
       <Paper square className={classes.paper}>
@@ -60,58 +84,10 @@ function SimpleTabs({ AppState, SetAppState }) {
           <Tab label="This Month" />
         </Tabs>
       </Paper>
-      {value === 0 && (
-        <TabContainer>
-          {categoriesToRender.map(({ name }) => (
-            <List
-              key={name}
-              category={name}
-              AppState={AppState}
-              SetAppState={SetAppState}
-              timerange="all"
-            />
-          ))}
-        </TabContainer>
-      )}
-      {value === 1 && (
-        <TabContainer>
-          {categoriesToRender.map(({ name }) => (
-            <List
-              key={name}
-              category={name}
-              AppState={AppState}
-              SetAppState={SetAppState}
-              timerange="today"
-            />
-          ))}
-        </TabContainer>
-      )}
-      {value === 2 && (
-        <TabContainer>
-          {categoriesToRender.map(({ name }) => (
-            <List
-              key={name}
-              category={name}
-              AppState={AppState}
-              SetAppState={SetAppState}
-              timerange="week"
-            />
-          ))}
-        </TabContainer>
-      )}
-      {value === 3 && (
-        <TabContainer>
-          {categoriesToRender.map(({ name }) => (
-            <List
-              key={name}
-              category={name}
-              AppState={AppState}
-              SetAppState={SetAppState}
-              timerange="month"
-            />
-          ))}
-        </TabContainer>
-      )}
+      {value === 0 && generateTabContainers("all")}
+      {value === 1 && generateTabContainers("today")}
+      {value === 2 && generateTabContainers("week")}
+      {value === 3 && generateTabContainers("month")}
     </div>
   );
 }

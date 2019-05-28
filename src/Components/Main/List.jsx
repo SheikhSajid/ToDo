@@ -102,6 +102,9 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
       });
     }
 
+    let style = {};
+    if (done) style = { textDecoration: "line-through" };
+
     return (
       <LightTooltip
         key={id}
@@ -119,7 +122,7 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
               disableRipple
             />
           </ListItemIcon>
-          <ListItemText primary={title} />
+          <ListItemText primary={title} style={style} />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="Comments" onClick={handleDelete}>
               <DeleteIcon />

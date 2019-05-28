@@ -40,6 +40,7 @@ export default class App extends Component {
     main: [],
     archived: [],
     trash: [],
+    search: "",
     drawerOpenMobile: false,
     selectedCategory: "all"
   };
@@ -87,20 +88,3 @@ export default class App extends Component {
 }
 
 render(<App />, document.getElementById("app"));
-
-// import { HashRouter, Route } from "react-router-dom";
-
-// class App extends Component {
-//   render() {
-//     return (
-//       // <HashRouter>
-//       //   <Fragment>
-//       //     <Route path="/signin" component={Signin} />
-//       //     <Route path="/signup" component={Signup} />
-//       //     <Route path="/" component={NoteViewer} />
-//       //   </Fragment>
-//       // </HashRouter>
-//       <h1>DEXieeeeee</h1>
-//     );
-//   }
-// }

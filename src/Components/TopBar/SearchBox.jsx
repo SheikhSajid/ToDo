@@ -4,8 +4,12 @@ import InputBase from "@material-ui/core/InputBase";
 
 import useStyles from "./style";
 
-export default function SearchBox() {
+export default function SearchBox({ SetAppState }) {
   const classes = useStyles();
+
+  function handleChange(event) {
+    SetAppState({ search: event.target.value });
+  }
 
   return (
     <div className={classes.search}>
@@ -18,6 +22,7 @@ export default function SearchBox() {
           root: classes.inputRoot,
           input: classes.inputInput
         }}
+        onChange={handleChange}
       />
     </div>
   );

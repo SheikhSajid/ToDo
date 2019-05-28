@@ -39,7 +39,7 @@ export default function index(props) {
             <MenuIcon />
           </IconButton>
 
-          <Search />
+          <Search AppState={AppState} SetAppState={SetAppState} />
 
           <Button variant="contained" color="primary" onClick={openModal}>
             Add New
@@ -67,19 +67,3 @@ export default function index(props) {
     </div>
   );
 }
-
-// export default class index extends Component {
-//   // state = {
-//   //   mobileOpen: false
-//   // };
-
-//   // handleDrawerToggle = () => {
-//   //   this.setState(prevState => ({ mobileOpen: !prevState.mobileOpen }));
-//   // };
-
-//   render() {
-
-//     console.log(`classes: ${JSON.stringify(classes, null, 2)}`);
-
-//   }
-// }
