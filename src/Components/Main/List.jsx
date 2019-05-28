@@ -20,38 +20,41 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CheckboxList({
-  AppState,
-  SetAppState,
-  completedTasks,
-  incompleteTasks
-}) {
+function CheckboxList({ AppState, SetAppState, category }) {
   const classes = useStyles();
-  // const [checked, setChecked] = React.useState([0]);
+
+  const tasksFromCategory = AppState.main.filter(
+    task => task.category === category
+  );
+  const completedTasks = tasksFromCategory.filter(task => task.done === 1);
+  const incompleteTasks = tasksFromCategory.filter(task => task.done === 0);
 
   const handleToggle = clickedTask => () => {
     const flippedDoneField = clickedTask.done ? 0 : 1;
 
-    db.main.update(clickedTask.id, { done: flippedDoneField }).then(() => {
-      const newMainTasks = AppState.main.filter(
-        task => task.id !== clickedTask.id
-      );
-      clickedTask.done = flippedDoneField;
-      SetAppState({ main: [...newMainTasks, clickedTask] });
-    });
+    db.main
+      .update(clickedTask.id, { done: flippedDoneField })
+      .then(() => {
+        const newMainTasks = AppState.main.filter(
+          task => task.id !== clickedTask.id
+        );
+        clickedTask.done = flippedDoneField;
+        SetAppState({ main: [...newMainTasks, clickedTask] });
+      })
+      .catch(err => alert(err));
   };
 
-  return (
+  const list = (
     <List className={classes.root}>
       <Typography
         variant="h5"
         style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
       >
-        Test
+        {category}
       </Typography>
 
       {incompleteTasks.map(task => {
-        const { id, done, description } = task;
+        const { id, done, title } = task;
 
         return (
           <ListItem
@@ -69,7 +72,7 @@ function CheckboxList({
                 disableRipple
               />
             </ListItemIcon>
-            <ListItemText primary={description} />
+            <ListItemText primary={title} />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="Comments">
                 <CommentIcon />
@@ -80,7 +83,7 @@ function CheckboxList({
       })}
 
       {completedTasks.map(task => {
-        const { id, done, description } = task;
+        const { id, done, title } = task;
 
         return (
           <ListItem
@@ -99,7 +102,7 @@ function CheckboxList({
               />
             </ListItemIcon>
             <ListItemText
-              primary={description}
+              primary={title}
               style={{ textDecoration: "line-through" }}
             />
             <ListItemSecondaryAction>
@@ -112,6 +115,12 @@ function CheckboxList({
       })}
     </List>
   );
+
+  const placeholder = <span />;
+
+  const output = tasksFromCategory.length ? list : placeholder;
+
+  return output;
 }
 
 export default CheckboxList;

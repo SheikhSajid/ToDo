@@ -40,7 +40,7 @@ export default function NewTaskForm({
       month,
       year,
       day,
-      done: 1
+      done: 0
     };
     delete newTask.selectedCategory;
     delete newTask.categories;

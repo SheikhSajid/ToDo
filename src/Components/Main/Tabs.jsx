@@ -32,18 +32,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SimpleTabs({ AppState, SetAppState, SyncAppStateWithDb }) {
+function SimpleTabs({ AppState, SetAppState }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
-  const completedTasks = AppState.main.filter(task => task.done === 1);
-  const incompleteTasks = AppState.main.filter(task => task.done === 0);
-  // console.log(`completed tasks: ${typeof completedTasks}`);
-  // console.log(`AppState.main len: ${AppState.main.length}`);
 
   function handleChange(event, newValue) {
     setValue(newValue);
   }
+
+  const categoriesToRender =
+    AppState.selectedCategory === "all"
+      ? AppState.category
+      : [{ name: AppState.selectedCategory }];
 
   return (
     <div className={classes.root}>
@@ -61,13 +61,14 @@ function SimpleTabs({ AppState, SetAppState, SyncAppStateWithDb }) {
       </Paper>
       {value === 0 && (
         <TabContainer>
-          <List
-            AppState={AppState}
-            SetAppState={SetAppState}
-            SyncAppStateWithDb={SyncAppStateWithDb}
-            completedTasks={completedTasks}
-            incompleteTasks={incompleteTasks}
-          />
+          {categoriesToRender.map(({ name }) => (
+            <List
+              key={name}
+              category={name}
+              AppState={AppState}
+              SetAppState={SetAppState}
+            />
+          ))}
         </TabContainer>
       )}
       {value === 1 && <TabContainer>Item Two</TabContainer>}
