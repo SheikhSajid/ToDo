@@ -8,7 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import CommentIcon from "@material-ui/icons/Comment";
+// import CommentIcon from "@material-ui/icons/Comment";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import db from "db";
 
@@ -81,6 +82,44 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
       .catch(err => alert(err));
   };
 
+  const renderTasks = task => {
+    const { id, done, title } = task;
+
+    function handleDelete() {
+      db.main.delete(id).then(() => {
+        const newMainState = AppState.main.filter(
+          currTask => currTask.id !== id
+        );
+        SetAppState({ main: newMainState });
+      });
+    }
+
+    return (
+      <ListItem
+        key={id}
+        role={undefined}
+        dense
+        button
+        onClick={handleToggle(task)}
+      >
+        <ListItemIcon>
+          <Checkbox
+            edge="start"
+            checked={done === 1}
+            tabIndex={-1}
+            disableRipple
+          />
+        </ListItemIcon>
+        <ListItemText primary={title} />
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="Comments" onClick={handleDelete}>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
+  };
+
   const list = (
     <List className={classes.root}>
       <Typography
@@ -90,66 +129,8 @@ function CheckboxList({ AppState, SetAppState, category, timerange }) {
         {category}
       </Typography>
 
-      {incompleteTasks.map(task => {
-        const { id, done, title } = task;
-
-        return (
-          <ListItem
-            key={id}
-            role={undefined}
-            dense
-            button
-            onClick={handleToggle(task)}
-          >
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={done === 1}
-                tabIndex={-1}
-                disableRipple
-              />
-            </ListItemIcon>
-            <ListItemText primary={title} />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="Comments">
-                <CommentIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
-
-      {completedTasks.map(task => {
-        const { id, done, title } = task;
-
-        return (
-          <ListItem
-            key={id}
-            role={undefined}
-            dense
-            button
-            onClick={handleToggle(task)}
-          >
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={done === 1}
-                tabIndex={-1}
-                disableRipple
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={title}
-              style={{ textDecoration: "line-through" }}
-            />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="Comments">
-                <CommentIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
+      {incompleteTasks.map(renderTasks)}
+      {completedTasks.map(renderTasks)}
     </List>
   );
 
