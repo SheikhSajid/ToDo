@@ -35,7 +35,7 @@ const getTasksFromTimerange = (tasks, range) => {
     filteredOutput = tasks.filter(
       task => task.month === d.getMonth() + 1 && task.year === d.getFullYear()
     );
-  } else {
+  } else if (range === "week") {
     const dayOfTheWeek = d.getDay();
     const daysLeft = 7 - dayOfTheWeek;
 
@@ -49,6 +49,8 @@ const getTasksFromTimerange = (tasks, range) => {
       filteredOutput = [...filteredOutput, ...t];
       d.setDate(d.getDate() + 1); // increment the date object's date
     }
+  } else {
+    filteredOutput = tasks;
   }
 
   return filteredOutput;

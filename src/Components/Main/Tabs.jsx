@@ -54,6 +54,7 @@ function SimpleTabs({ AppState, SetAppState }) {
           textColor="primary"
           onChange={handleChange}
         >
+          <Tab label="All" />
           <Tab label="Today" />
           <Tab label="This Week" />
           <Tab label="This Month" />
@@ -67,7 +68,7 @@ function SimpleTabs({ AppState, SetAppState }) {
               category={name}
               AppState={AppState}
               SetAppState={SetAppState}
-              timerange="today"
+              timerange="all"
             />
           ))}
         </TabContainer>
@@ -80,12 +81,25 @@ function SimpleTabs({ AppState, SetAppState }) {
               category={name}
               AppState={AppState}
               SetAppState={SetAppState}
-              timerange="week"
+              timerange="today"
             />
           ))}
         </TabContainer>
       )}
       {value === 2 && (
+        <TabContainer>
+          {categoriesToRender.map(({ name }) => (
+            <List
+              key={name}
+              category={name}
+              AppState={AppState}
+              SetAppState={SetAppState}
+              timerange="week"
+            />
+          ))}
+        </TabContainer>
+      )}
+      {value === 3 && (
         <TabContainer>
           {categoriesToRender.map(({ name }) => (
             <List
