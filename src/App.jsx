@@ -56,6 +56,8 @@ export default class App extends Component {
           { name: "health" },
           { name: "entertainment" }
         ]);
+
+      this.SyncAppStateWithDb("category");
     });
   }
 
